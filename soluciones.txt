@@ -1,0 +1,68 @@
+#######################################################################################################################################
+# Teoría
+
+1. a) Como excepciones o casos avanzados que van más allá de las primeras tres formas normales.
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+2. Ambos funcionan como un filtro en la consulta, el WHERE es el más común pero el HAVING es útil para cuando necesitas filtrar después de un GROUP BY 
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+3. c) FROM -> WHERE -> SELECT -> ORDER BY
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+4. a) Anomalía de inserción, eliminación y actualización.
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+5. (Jajaja está bueno el meme) Cuando queremos subir un archivo de nuestro repositorio local al repositorio remoto los pasos son git add, git commit y al último git push. El commit guarda los cambios en el historial del repositorio y el push se encarga de enviarlos, pero no podemos hacer nada de eso sin decirle que es lo que tiene que subir (git add). Si seguimos este orden es como si hubiéramos preparado el avión vacío y volara hacia el destino pero sin contenido o en este caso sin que los pasajeros entren.
+
+#######################################################################################################################################
+# Práctica
+
+1.
+
+```SQL
+-- poner solución debajo de este mensaje
+
+select 
+	avg(edad) as prom_edad
+from alumnos
+where apellido like '%ez'
+
+```
+
+2.
+
+```SQL
+-- poner solución debajo de este mensaje
+
+select 
+	a.nombre, 
+	a.apellido, 
+	max(b.calificacion) max_calificacion 
+from alumnos a 
+left join calificaciones b on a.expediente = b.expediente
+where b.calificacion is not null
+group by 
+	a.nombre, 
+	a.apellido
+
+```
+
+3.
+
+```SQL
+-- poner solución debajo de este mensaje
+
+select 
+	a.nombre, 
+	a.apellido,
+	round(avg(b.calificacion), 2) prom_calificacion
+from alumnos a
+left join calificaciones b on a.expediente = b.expediente
+where b.calificacion is not null
+group by 
+	a.nombre, 
+	a.apellido
+having prom_calificacion > (select avg(calificacion) from calificaciones)
+
+```
